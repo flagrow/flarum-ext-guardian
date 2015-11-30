@@ -20,7 +20,7 @@
     },
     "extra": {
         "flarum-extension": {
-            "title": "Cache",
+            "title": "Guardian",
             "icon": {
                 "name": "user-secret",
                 "backgroundColor": "#74000E",
