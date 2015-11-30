@@ -12,7 +12,7 @@ export default function() {
   extend(AdminNav.prototype, 'items', items => {
     items.add('guardian', AdminLinkButton.component({
       href: app.route('guardian'),
-      icon: 'guardian',
+      icon: 'user-secret',
       children: app.translator.trans('hyn-guardian.admin.nav.guardian_button'),
       description: app.translator.trans('hyn-guardian.admin.nav.guardian_text')
     }));

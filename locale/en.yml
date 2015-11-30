@@ -1,0 +1,7 @@
+hyn-guardian:
+  package_name: "Guardian"
+  package_description: "View users and their inter-relations"
+  admin:
+    nav:
+      guardian_button: => hyn-guardian.package_name
+      guardian_text: => hyn-guardian.package_description
