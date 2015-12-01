@@ -18,7 +18,9 @@ function userItem(user) {
 
     return (
         <tr data-id={user.id()} className="PermissionGrid-child">
-            <th>{user.username()}</th>
+            <th>
+                {user.username()}
+            </th>
             <td>{humanTime(user.joinTime())}</td>
             <td>{humanTime(user.lastSeenTime())}</td>
             <td>{user.badges().toArray().length ? (
@@ -32,6 +34,13 @@ function userItem(user) {
 }
 
 export default class GuardianPage extends Component {
+    init() {
+        this.users = [];
+        app.store.find('users').then(users => {
+            this.users = users;
+            m.redraw();
+        });
+    }
     view() {
         return (
             <div className="PermissionsPage container">
@@ -45,7 +54,7 @@ export default class GuardianPage extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {app.store.all('users').map(userItem)}
+                    {this.users.map(userItem)}
                     </tbody>
                 </table>
             </div>

@@ -128,6 +128,17 @@ System.register('hyn/guardian/components/GuardianPage', ['flarum/Component', 'fl
                 }
 
                 babelHelpers.createClass(GuardianPage, [{
+                    key: 'init',
+                    value: function init() {
+                        var _this = this;
+
+                        this.users = [];
+                        app.store.find('users').then(function (users) {
+                            _this.users = users;
+                            m.redraw();
+                        });
+                    }
+                }, {
                     key: 'view',
                     value: function view() {
                         return m(
@@ -163,7 +174,7 @@ System.register('hyn/guardian/components/GuardianPage', ['flarum/Component', 'fl
                                 m(
                                     'tbody',
                                     null,
-                                    app.store.all('users').map(userItem)
+                                    this.users.map(userItem)
                                 )
                             )
                         );
