@@ -112,13 +112,11 @@ System.register('hyn/guardian/components/GuardianPage', ['flarum/Component', 'fl
                 babelHelpers.createClass(GuardianPage, [{
                     key: 'init',
                     value: function init() {
-                        var _this = this;
-
                         this.users = [];
-                        app.store.find('users', null, { 'page[offset]': 5 }).then(function (users) {
-                            _this.users = users;
-                            m.redraw();
-                        });
+                        this.sorting = 'username';
+                        this.offset = 0;
+
+                        this.queryList();
                     }
                 }, {
                     key: 'view',
@@ -158,8 +156,43 @@ System.register('hyn/guardian/components/GuardianPage', ['flarum/Component', 'fl
                                     null,
                                     this.users.map(userItem)
                                 )
+                            ),
+                            m(
+                                'button',
+                                { onclick: this.previousPage() },
+                                'Previous'
+                            ),
+                            m(
+                                'button',
+                                { onclick: this.nextPage() },
+                                'Next'
                             )
                         );
+                    }
+                }, {
+                    key: 'queryList',
+                    value: function queryList() {
+                        var _this = this;
+
+                        app.store.find('users', { sort: this.sorting, page: { limit: 50, offset: this.offset } }).then(function (users) {
+                            _this.users = users;
+                            m.redraw();
+                        });
+                    }
+                }, {
+                    key: 'previousPage',
+                    value: function previousPage() {
+                        this.offset--;
+                        if (this.offset < 0) this.offset = 0;
+
+                        //this.queryList();
+                    }
+                }, {
+                    key: 'nextPage',
+                    value: function nextPage() {
+                        this.offset++;
+
+                        //this.queryList();
                     }
                 }]);
                 return GuardianPage;

@@ -38,10 +38,10 @@ function userItem(user) {
 export default class GuardianPage extends Component {
     init() {
         this.users = [];
-        app.store.find('users', null, {'page[offset]': 5}).then(users => {
-            this.users = users;
-            m.redraw();
-        });
+        this.sorting = 'username';
+        this.offset = 0;
+
+        this.queryList();
     }
     view() {
         return (
@@ -59,7 +59,28 @@ export default class GuardianPage extends Component {
                         {this.users.map(userItem)}
                     </tbody>
                 </table>
+                <button onclick={this.previousPage()}>Previous</button>
+                <button onclick={this.nextPage()}>Next</button>
             </div>
         );
+    }
+    queryList() {
+        app.store.find('users',
+            {sort: this.sorting, page: { limit: 50, offset: this.offset}}
+        ).then(users => {
+            this.users = users;
+            m.redraw();
+        });
+    }
+    previousPage() {
+        this.offset--;
+        if(this.offset < 0) this.offset = 0;
+
+        //this.queryList();
+    }
+    nextPage() {
+        this.offset++;
+
+        //this.queryList();
     }
 }
