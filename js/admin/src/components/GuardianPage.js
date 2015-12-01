@@ -17,32 +17,37 @@ import listItems from 'flarum/helpers/listItems';
 function userItem(user) {
 
     return (
-        <li data-id={user.id()}>
-            <div class="container">
-                <span className="GuardianUser-name">{user.username()}</span>
-                <span className="GuardianUser-badges">
-                    {user.badges().toArray().length ? (
-                        <ul className="UserCard-badges badges">
-                            {listItems(user.badges().toArray())}
-                        </ul>
-                    ) : ''}
-                </span>
-            </div>
-        </li>
+        <tr data-id={user.id()} className="PermissionGrid-child">
+            <th>{user.username()}</th>
+            <td>{humanTime(user.joinTime())}</td>
+            <td>{humanTime(user.lastSeenTime())}</td>
+            <td>{user.badges().toArray().length ? (
+                <ul className="UserCard-badges badges">
+                    {listItems(user.badges().toArray())}
+                </ul>
+            ) : ''}
+            </td>
+        </tr>
     );
 }
 
 export default class GuardianPage extends Component {
     view() {
         return (
-            <div className="GuardianPage">
-                <div className="GuardianPage-list">
-                    <div className="container">
-                        <ul>
-                            {app.store.all('users').map(userItem)}
-                        </ul>
-                    </div>
-                </div>
+            <div className="PermissionsPage container">
+                <table className="PermissionGrid">
+                    <thead>
+                    <tr>
+                        <td></td>
+                        <th>{app.translator.trans('hyn-guardian.admin.grid.user.joined_at')}</th>
+                        <th>{app.translator.trans('hyn-guardian.admin.grid.user.last_seen_at')}</th>
+                        <th>{app.translator.trans('hyn-guardian.admin.grid.user.badges')}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {app.store.all('users').map(userItem)}
+                    </tbody>
+                </table>
             </div>
         );
     }
