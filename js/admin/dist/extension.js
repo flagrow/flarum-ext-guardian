@@ -1,25 +1,3 @@
-System.register('hyn/guardian/addGuardianHomePageOption', ['flarum/extend', 'flarum/components/BasicsPage'], function (_export) {
-  'use strict';
-
-  var extend, BasicsPage;
-  return {
-    setters: [function (_flarumExtend) {
-      extend = _flarumExtend.extend;
-    }, function (_flarumComponentsBasicsPage) {
-      BasicsPage = _flarumComponentsBasicsPage['default'];
-    }],
-    execute: function () {
-      _export('default', function () {
-        extend(BasicsPage.prototype, 'homePageItems', function (items) {
-          items.add('guardian', {
-            path: '/guardian',
-            label: app.translator.trans('hyn-guardian.admin.basics.guardian_label')
-          });
-        });
-      });
-    }
-  };
-});;
 System.register('hyn/guardian/addGuardianPane', ['flarum/extend', 'flarum/components/AdminNav', 'flarum/components/AdminLinkButton', 'hyn/guardian/components/GuardianPage'], function (_export) {
   'use strict';
 
@@ -72,7 +50,11 @@ System.register('hyn/guardian/components/GuardianPage', ['flarum/Component', 'fl
             m(
                 'th',
                 null,
-                user.username()
+                m(
+                    'a',
+                    { href: app.forum.attribute('baseUrl') + "/u/" + user.username() },
+                    user.username()
+                )
             ),
             m(
                 'td',
@@ -133,7 +115,7 @@ System.register('hyn/guardian/components/GuardianPage', ['flarum/Component', 'fl
                         var _this = this;
 
                         this.users = [];
-                        app.store.find('users').then(function (users) {
+                        app.store.find('users', null, { 'page[offset]': 5 }).then(function (users) {
                             _this.users = users;
                             m.redraw();
                         });
@@ -187,19 +169,17 @@ System.register('hyn/guardian/components/GuardianPage', ['flarum/Component', 'fl
         }
     };
 });;
-System.register('hyn/guardian/main', ['flarum/core/models/User', 'hyn/guardian/addGuardianPane', 'hyn/guardian/addGuardianHomePageOption'], function (_export) {
-    //import addTagsPermissionScope from 'flarum/tags/addTagsPermissionScope';
-    //import addTagPermission from 'flarum/tags/addTagPermission';
+System.register('hyn/guardian/main', ['flarum/core/models/User', 'hyn/guardian/addGuardianPane'], function (_export) {
     'use strict';
 
-    var User, addGuardianPane, addGuardianHomePageOption;
+    //import addTagsPermissionScope from 'flarum/tags/addTagsPermissionScope';
+    //import addTagPermission from 'flarum/tags/addTagPermission';
+    var User, addGuardianPane;
     return {
         setters: [function (_flarumCoreModelsUser) {
             User = _flarumCoreModelsUser['default'];
         }, function (_hynGuardianAddGuardianPane) {
             addGuardianPane = _hynGuardianAddGuardianPane['default'];
-        }, function (_hynGuardianAddGuardianHomePageOption) {
-            addGuardianHomePageOption = _hynGuardianAddGuardianHomePageOption['default'];
         }],
         execute: function () {
 
@@ -207,7 +187,6 @@ System.register('hyn/guardian/main', ['flarum/core/models/User', 'hyn/guardian/a
                 //addTagsPermissionScope();
                 //addTagPermission();
                 addGuardianPane();
-                addGuardianHomePageOption();
             });
         }
     };

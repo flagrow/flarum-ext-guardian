@@ -19,7 +19,9 @@ function userItem(user) {
     return (
         <tr data-id={user.id()} className="PermissionGrid-child">
             <th>
-                {user.username()}
+                <a href={app.forum.attribute('baseUrl') + "/u/" + user.username()}>
+                    {user.username()}
+                </a>
             </th>
             <td>{humanTime(user.joinTime())}</td>
             <td>{humanTime(user.lastSeenTime())}</td>
@@ -36,7 +38,7 @@ function userItem(user) {
 export default class GuardianPage extends Component {
     init() {
         this.users = [];
-        app.store.find('users', null, {'page[offset]=5'}).then(users => {
+        app.store.find('users', null, {'page[offset]': 5}).then(users => {
             this.users = users;
             m.redraw();
         });
@@ -54,7 +56,7 @@ export default class GuardianPage extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.users.map(userItem)}
+                        {this.users.map(userItem)}
                     </tbody>
                 </table>
             </div>
