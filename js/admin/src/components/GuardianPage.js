@@ -36,7 +36,7 @@ function userItem(user) {
 export default class GuardianPage extends Component {
     init() {
         this.users = [];
-        app.store.find('users', null, {}, {'page[offset]=5'}).then(users => {
+        app.store.find('users', null, {'page[offset]=5'}).then(users => {
             this.users = users;
             m.redraw();
         });
