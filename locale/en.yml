@@ -10,3 +10,5 @@ hyn-guardian:
         joined_at: Joined
         last_seen_at: Last online
         badges: Badges
+        activated: Active
+        details: Details

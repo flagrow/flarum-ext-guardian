@@ -21,7 +21,11 @@ function userItem(user) {
         ]),
         m('td', humanTime(user.joinTime())),
         m('td', humanTime(user.lastSeenTime())),
-        m('td', user.badges().toArray().length ? m('ul', {className: 'UserCard-badges badges'}, listItems(user.badges().toArray())) : '')
+        m('td', user.isActivated() ? icon('check') : icon('close')),
+        m('td', user.badges().toArray().length ? m('ul', {className: 'UserCard-badges badges'}, listItems(user.badges().toArray())) : ''),
+        m('td', [
+            m('button', {className: 'Button Button-Default'}, app.translator.trans('hyn-guardian.admin.grid.user.details'))
+        ])
     ]);
 }
 
@@ -40,9 +44,12 @@ export default class GuardianPage extends Component {
             m('table', {className: 'PermissionGrid'}, [
                 m('thead', [
                     m('tr', [
+                        m('th', ''),
                         m('th', app.translator.trans('hyn-guardian.admin.grid.user.joined_at')),
                         m('th', app.translator.trans('hyn-guardian.admin.grid.user.last_seen_at')),
-                        m('th', app.translator.trans('hyn-guardian.admin.grid.user.badges'))
+                        m('th', app.translator.trans('hyn-guardian.admin.grid.user.activated')),
+                        m('th', app.translator.trans('hyn-guardian.admin.grid.user.badges')),
+                        m('th', '')
                     ])
                 ]),
                 m('tbody', this.users.map(userItem)),

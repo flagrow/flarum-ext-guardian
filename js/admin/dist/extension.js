@@ -43,7 +43,7 @@ System.register('hyn/guardian/components/GuardianPage', ['flarum/Component', 'fl
 
     var Component, Button, humanTime, ItemList, avatar, username, icon, UserBio, AvatarEditor, listItems, GuardianPage;
     function userItem(user) {
-        return m('tr', { dataId: user.id(), className: 'PermissionGrid-child' }, [m('th', [m('a', { href: app.forum.attribute('baseUrl') + '/u/' + user.username() }, user.username())]), m('td', humanTime(user.joinTime())), m('td', humanTime(user.lastSeenTime())), m('td', user.badges().toArray().length ? m('ul', { className: 'UserCard-badges badges' }, listItems(user.badges().toArray())) : '')]);
+        return m('tr', { dataId: user.id(), className: 'PermissionGrid-child' }, [m('th', [m('a', { href: app.forum.attribute('baseUrl') + '/u/' + user.username() }, user.username())]), m('td', humanTime(user.joinTime())), m('td', humanTime(user.lastSeenTime())), m('td', user.isActivated() ? icon('check') : icon('close')), m('td', user.badges().toArray().length ? m('ul', { className: 'UserCard-badges badges' }, listItems(user.badges().toArray())) : ''), m('td', [m('button', { className: 'Button Button-Default' }, app.translator.trans('hyn-guardian.admin.grid.user.details'))])]);
     }
 
     return {
@@ -90,7 +90,7 @@ System.register('hyn/guardian/components/GuardianPage', ['flarum/Component', 'fl
                 }, {
                     key: 'view',
                     value: function view() {
-                        return m('div', { className: 'PermissionsPage container' }, [m('table', { className: 'PermissionGrid' }, [m('thead', [m('tr', [m('th', app.translator.trans('hyn-guardian.admin.grid.user.joined_at')), m('th', app.translator.trans('hyn-guardian.admin.grid.user.last_seen_at')), m('th', app.translator.trans('hyn-guardian.admin.grid.user.badges'))])]), m('tbody', this.users.map(userItem)), m('tfoot', [m('button', { className: 'Button Button-Default', onclick: this.movePage.bind(this, -1) }, 'Previous'), m('button', { className: 'Button Button-Default', onclick: this.movePage.bind(this, 1) }, 'Next')])])]);
+                        return m('div', { className: 'PermissionsPage container' }, [m('table', { className: 'PermissionGrid' }, [m('thead', [m('tr', [m('th', ''), m('th', app.translator.trans('hyn-guardian.admin.grid.user.joined_at')), m('th', app.translator.trans('hyn-guardian.admin.grid.user.last_seen_at')), m('th', app.translator.trans('hyn-guardian.admin.grid.user.activated')), m('th', app.translator.trans('hyn-guardian.admin.grid.user.badges')), m('th', '')])]), m('tbody', this.users.map(userItem)), m('tfoot', [m('button', { className: 'Button Button-Default', onclick: this.movePage.bind(this, -1) }, 'Previous'), m('button', { className: 'Button Button-Default', onclick: this.movePage.bind(this, 1) }, 'Next')])])]);
                     }
                 }, {
                     key: 'queryList',
@@ -138,6 +138,30 @@ System.register('hyn/guardian/main', ['flarum/core/models/User', 'hyn/guardian/a
                 //addTagPermission();
                 addGuardianPane();
             });
+        }
+    };
+});;
+System.register('hyn/guardian/components/GuardianUserDetailsPopup', ['flarum/components/Modal'], function (_export) {
+    'use strict';
+
+    var Modal, GuardianUserDetailsPopup;
+    return {
+        setters: [function (_flarumComponentsModal) {
+            Modal = _flarumComponentsModal['default'];
+        }],
+        execute: function () {
+            GuardianUserDetailsPopup = (function (_Modal) {
+                babelHelpers.inherits(GuardianUserDetailsPopup, _Modal);
+
+                function GuardianUserDetailsPopup() {
+                    babelHelpers.classCallCheck(this, GuardianUserDetailsPopup);
+                    babelHelpers.get(Object.getPrototypeOf(GuardianUserDetailsPopup.prototype), 'constructor', this).apply(this, arguments);
+                }
+
+                return GuardianUserDetailsPopup;
+            })(Modal);
+
+            _export('default', GuardianUserDetailsPopup);
         }
     };
 });
