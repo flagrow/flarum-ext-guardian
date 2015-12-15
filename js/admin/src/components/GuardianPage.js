@@ -30,6 +30,7 @@ export default class GuardianPage extends Component {
         this.users = [];
         this.sorting = 'username';
         this.offset = 0;
+        this.limit = 20;
 
         this.queryList();
     }
@@ -55,7 +56,7 @@ export default class GuardianPage extends Component {
 
     queryList() {
         app.store.find('users',
-            {sort: this.sorting, page: {limit: 50, offset: this.offset}}
+            {sort: this.sorting, page: {limit: this.limit, offset: this.offset}}
         ).then(users => {
             this.users = users;
             m.redraw();
