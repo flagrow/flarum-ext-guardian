@@ -15,24 +15,14 @@ import listItems from 'flarum/helpers/listItems';
 //import sortTags from 'flarum/tags/utils/sortTags';
 
 function userItem(user) {
-
-    return (
-        <tr data-id={user.id()} className="PermissionGrid-child">
-            <th>
-                <a href={app.forum.attribute('baseUrl') + "/u/" + user.username()}>
-                    {user.username()}
-                </a>
-            </th>
-            <td>{humanTime(user.joinTime())}</td>
-            <td>{humanTime(user.lastSeenTime())}</td>
-            <td>{user.badges().toArray().length ? (
-                <ul className="UserCard-badges badges">
-                    {listItems(user.badges().toArray())}
-                </ul>
-            ) : ''}
-            </td>
-        </tr>
-    );
+    return m('tr', {dataId: user.id(), className: 'PermissionGrid-child'},[
+        m('th', [
+            m('a', {href: app.forum.attribute('baseUrl') + '/u/' + user.username()}, user.username())
+        ]),
+        m('td', humanTime(user.joinTime())),
+        m('td', humanTime(user.lastSeenTime())),
+        m('td', user.badges().toArray().length ? m('ul', {className: 'UserCard-badges badges'}, listItems(user.badges().toArray())) : '')
+    ]);
 }
 
 export default class GuardianPage extends Component {
@@ -43,45 +33,40 @@ export default class GuardianPage extends Component {
 
         this.queryList();
     }
+
     view() {
-        return (
-            <div className="PermissionsPage container">
-                <table className="PermissionGrid">
-                    <thead>
-                    <tr>
-                        <td></td>
-                        <th>{app.translator.trans('hyn-guardian.admin.grid.user.joined_at')}</th>
-                        <th>{app.translator.trans('hyn-guardian.admin.grid.user.last_seen_at')}</th>
-                        <th>{app.translator.trans('hyn-guardian.admin.grid.user.badges')}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        {this.users.map(userItem)}
-                    </tbody>
-                </table>
-                <button onclick={this.previousPage(this)}>Previous</button>
-                <button onclick={this.nextPage(this)}>Next</button>
-            </div>
-        );
+        return m('div', {className: 'PermissionsPage container'}, [
+            m('table', {className: 'PermissionGrid'}, [
+                m('thead', [
+                    m('tr', [
+                        m('th', app.translator.trans('hyn-guardian.admin.grid.user.joined_at')),
+                        m('th', app.translator.trans('hyn-guardian.admin.grid.user.last_seen_at')),
+                        m('th', app.translator.trans('hyn-guardian.admin.grid.user.badges'))
+                    ])
+                ]),
+                m('tbody', this.users.map(userItem)),
+                m('tfoot', [
+                    m('button', {className: 'Button Button-Default', onclick: this.movePage.bind(this, -1)}, 'Previous'),
+                    m('button', {className: 'Button Button-Default', onclick: this.movePage.bind(this, 1)}, 'Next')
+                ])
+            ])
+        ]);
     }
+
     queryList() {
         app.store.find('users',
-            {sort: this.sorting, page: { limit: 50, offset: this.offset}}
+            {sort: this.sorting, page: {limit: 50, offset: this.offset}}
         ).then(users => {
             this.users = users;
             m.redraw();
         });
     }
-    previousPage(e) {
-        this.offset--;
+
+    movePage(direction) {
+        this.offset = this.offset + direction;
+
         if(this.offset < 0) this.offset = 0;
 
-        //this.queryList();
-    }
-    nextPage(e) {
-        console.log(e);
-        this.offset++;
-
-        //this.queryList();
+        this.queryList();
     }
 }

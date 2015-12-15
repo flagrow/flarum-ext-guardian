@@ -43,39 +43,7 @@ System.register('hyn/guardian/components/GuardianPage', ['flarum/Component', 'fl
 
     var Component, Button, humanTime, ItemList, avatar, username, icon, UserBio, AvatarEditor, listItems, GuardianPage;
     function userItem(user) {
-
-        return m(
-            'tr',
-            { 'data-id': user.id(), className: 'PermissionGrid-child' },
-            m(
-                'th',
-                null,
-                m(
-                    'a',
-                    { href: app.forum.attribute('baseUrl') + "/u/" + user.username() },
-                    user.username()
-                )
-            ),
-            m(
-                'td',
-                null,
-                humanTime(user.joinTime())
-            ),
-            m(
-                'td',
-                null,
-                humanTime(user.lastSeenTime())
-            ),
-            m(
-                'td',
-                null,
-                user.badges().toArray().length ? m(
-                    'ul',
-                    { className: 'UserCard-badges badges' },
-                    listItems(user.badges().toArray())
-                ) : ''
-            )
-        );
+        return m('tr', { dataId: user.id(), className: 'PermissionGrid-child' }, [m('th', [m('a', { href: app.forum.attribute('baseUrl') + '/u/' + user.username() }, user.username())]), m('td', humanTime(user.joinTime())), m('td', humanTime(user.lastSeenTime())), m('td', user.badges().toArray().length ? m('ul', { className: 'UserCard-badges badges' }, listItems(user.badges().toArray())) : '')]);
     }
 
     return {
@@ -121,53 +89,7 @@ System.register('hyn/guardian/components/GuardianPage', ['flarum/Component', 'fl
                 }, {
                     key: 'view',
                     value: function view() {
-                        return m(
-                            'div',
-                            { className: 'PermissionsPage container' },
-                            m(
-                                'table',
-                                { className: 'PermissionGrid' },
-                                m(
-                                    'thead',
-                                    null,
-                                    m(
-                                        'tr',
-                                        null,
-                                        m('td', null),
-                                        m(
-                                            'th',
-                                            null,
-                                            app.translator.trans('hyn-guardian.admin.grid.user.joined_at')
-                                        ),
-                                        m(
-                                            'th',
-                                            null,
-                                            app.translator.trans('hyn-guardian.admin.grid.user.last_seen_at')
-                                        ),
-                                        m(
-                                            'th',
-                                            null,
-                                            app.translator.trans('hyn-guardian.admin.grid.user.badges')
-                                        )
-                                    )
-                                ),
-                                m(
-                                    'tbody',
-                                    null,
-                                    this.users.map(userItem)
-                                )
-                            ),
-                            m(
-                                'button',
-                                { onclick: this.previousPage() },
-                                'Previous'
-                            ),
-                            m(
-                                'button',
-                                { onclick: this.nextPage() },
-                                'Next'
-                            )
-                        );
+                        return m('div', { className: 'PermissionsPage container' }, [m('table', { className: 'PermissionGrid' }, [m('thead', [m('tr', [m('th', app.translator.trans('hyn-guardian.admin.grid.user.joined_at')), m('th', app.translator.trans('hyn-guardian.admin.grid.user.last_seen_at')), m('th', app.translator.trans('hyn-guardian.admin.grid.user.badges'))])]), m('tbody', this.users.map(userItem)), m('tfoot', [m('button', { className: 'Button Button-Default', onclick: this.movePage.bind(this, -1) }, 'Previous'), m('button', { className: 'Button Button-Default', onclick: this.movePage.bind(this, 1) }, 'Next')])])]);
                     }
                 }, {
                     key: 'queryList',
@@ -180,19 +102,13 @@ System.register('hyn/guardian/components/GuardianPage', ['flarum/Component', 'fl
                         });
                     }
                 }, {
-                    key: 'previousPage',
-                    value: function previousPage() {
-                        this.offset--;
+                    key: 'movePage',
+                    value: function movePage(direction) {
+                        this.offset = this.offset + direction;
+
                         if (this.offset < 0) this.offset = 0;
 
-                        //this.queryList();
-                    }
-                }, {
-                    key: 'nextPage',
-                    value: function nextPage() {
-                        this.offset++;
-
-                        //this.queryList();
+                        this.queryList();
                     }
                 }]);
                 return GuardianPage;
