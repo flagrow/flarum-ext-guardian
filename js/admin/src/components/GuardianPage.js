@@ -59,8 +59,8 @@ export default class GuardianPage extends Component {
                         {this.users.map(userItem)}
                     </tbody>
                 </table>
-                <button onclick={this.previousPage()}>Previous</button>
-                <button onclick={this.nextPage()}>Next</button>
+                <button onclick={this.previousPage(this)}>Previous</button>
+                <button onclick={this.nextPage(this)}>Next</button>
             </div>
         );
     }
@@ -72,13 +72,14 @@ export default class GuardianPage extends Component {
             m.redraw();
         });
     }
-    previousPage() {
+    previousPage(e) {
         this.offset--;
         if(this.offset < 0) this.offset = 0;
 
         //this.queryList();
     }
-    nextPage() {
+    nextPage(e) {
+        console.log(e);
         this.offset++;
 
         //this.queryList();
