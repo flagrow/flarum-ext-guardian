@@ -71,7 +71,7 @@ export default class GuardianPage extends Component {
     }
 
     movePage(direction) {
-        this.offset = this.offset + direction;
+        this.offset = this.offset + (direction * this.limit);
 
         if(this.offset < 0) this.offset = 0;
 
