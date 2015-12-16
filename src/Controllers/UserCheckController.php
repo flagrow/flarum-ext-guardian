@@ -2,7 +2,9 @@
 
 namespace Hyn\Guardian\Controllers;
 
+use Flarum\Core\User;
 use Flarum\Http\Controller\ControllerInterface;
+use Hyn\Guardian\Checks\Users\Ip;
 use Psr\Http\Message\ServerRequestInterface;
 
 class UserCheckController implements ControllerInterface
@@ -14,6 +16,11 @@ class UserCheckController implements ControllerInterface
      */
     public function handle(ServerRequestInterface $request)
     {
-        // TODO: Implement handle() method.
+        $userId = array_get($request->getQueryParams(), 'id');
+
+        $testCheck = new Ip(User::find($userId));
+        $testCheck->run();
+
+        return json_encode($testCheck->getReport());
     }
 }

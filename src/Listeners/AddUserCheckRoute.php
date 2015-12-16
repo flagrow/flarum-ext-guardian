@@ -15,6 +15,6 @@ class AddUserCheckRoute
 
     public function configureRoute(ConfigureApiRoutes $event)
     {
-        $event->get('/guardian/u/check/{user_id}', 'guardian.user.check', UserCheckController::class);
+        $event->get('/guardian/u/check/{id}', 'guardian.user.check', UserCheckController::class);
     }
 }

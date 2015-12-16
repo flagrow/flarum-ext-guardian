@@ -26,7 +26,7 @@ class Ip extends AbstractCheck
      *
      * @return void
      */
-    public function execute()
+    protected function execute()
     {
         $ips = $this->user->posts()->whereNotNull('ip_address')->lists('ip_address');
 
