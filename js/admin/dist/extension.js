@@ -85,12 +85,17 @@ System.register('hyn/guardian/components/GuardianPage', ['flarum/Component', 'fl
                         this.offset = 0;
                         this.limit = 20;
 
+                        this.oldOffset = null;
+
                         this.queryList();
                     }
                 }, {
                     key: 'view',
                     value: function view() {
-                        return m('div', { className: 'PermissionsPage container' }, [m('table', { className: 'PermissionGrid' }, [m('thead', [m('tr', [m('th', ''), m('th', app.translator.trans('hyn-guardian.admin.grid.user.joined_at')), m('th', app.translator.trans('hyn-guardian.admin.grid.user.last_seen_at')), m('th', app.translator.trans('hyn-guardian.admin.grid.user.activated')), m('th', app.translator.trans('hyn-guardian.admin.grid.user.badges')), m('th', '')])]), m('tbody', this.users.map(userItem)), m('tfoot', [m('button', { className: 'Button Button-Default', onclick: this.movePage.bind(this, -1) }, 'Previous'), m('button', { className: 'Button Button-Default', onclick: this.movePage.bind(this, 1) }, 'Next')])])]);
+                        return m('div', { className: 'PermissionsPage container' }, [m('table', { className: 'PermissionGrid' }, [m('thead', [m('tr', [m('th', ''), m('th', app.translator.trans('hyn-guardian.admin.grid.user.joined_at')), m('th', app.translator.trans('hyn-guardian.admin.grid.user.last_seen_at')), m('th', app.translator.trans('hyn-guardian.admin.grid.user.activated')), m('th', app.translator.trans('hyn-guardian.admin.grid.user.badges')), m('th', '')])]), m('tbody', this.users.map(userItem)), m('tfoot', [m('button', {
+                            className: 'Button Button-Default',
+                            onclick: this.movePage.bind(this, -1)
+                        }, 'Previous'), m('button', { className: 'Button Button-Default', onclick: this.movePage.bind(this, 1) }, 'Next')])])]);
                     }
                 }, {
                     key: 'queryList',
@@ -101,15 +106,20 @@ System.register('hyn/guardian/components/GuardianPage', ['flarum/Component', 'fl
                             if (users.length > 0) {
                                 _this.users = users;
                                 m.redraw();
+                            } else {
+                                _this.offset = _this.oldOffset;
                             }
                         });
                     }
                 }, {
                     key: 'movePage',
                     value: function movePage(direction) {
+                        this.oldOffset = this.offset;
                         this.offset = this.offset + direction * this.limit;
 
-                        if (this.offset < 0) this.offset = 0;
+                        if (this.offset < 0) {
+                            this.offset = 0;
+                        }
 
                         this.queryList();
                     }

@@ -15,7 +15,7 @@ import listItems from 'flarum/helpers/listItems';
 //import sortTags from 'flarum/tags/utils/sortTags';
 
 function userItem(user) {
-    return m('tr', {dataId: user.id(), className: 'PermissionGrid-child'},[
+    return m('tr', {dataId: user.id(), className: 'PermissionGrid-child'}, [
         m('th', [
             m('a', {href: app.forum.attribute('baseUrl') + '/u/' + user.username()}, user.username())
         ]),
@@ -36,6 +36,8 @@ export default class GuardianPage extends Component {
         this.offset = 0;
         this.limit = 20;
 
+        this.oldOffset = null;
+
         this.queryList();
     }
 
@@ -54,7 +56,10 @@ export default class GuardianPage extends Component {
                 ]),
                 m('tbody', this.users.map(userItem)),
                 m('tfoot', [
-                    m('button', {className: 'Button Button-Default', onclick: this.movePage.bind(this, -1)}, 'Previous'),
+                    m('button', {
+                        className: 'Button Button-Default',
+                        onclick: this.movePage.bind(this, -1)
+                    }, 'Previous'),
                     m('button', {className: 'Button Button-Default', onclick: this.movePage.bind(this, 1)}, 'Next')
                 ])
             ])
@@ -65,17 +70,22 @@ export default class GuardianPage extends Component {
         app.store.find('users',
             {sort: this.sorting, page: {limit: this.limit, offset: this.offset}}
         ).then(users => {
-            if(users.length > 0) {
+            if (users.length > 0) {
                 this.users = users;
                 m.redraw();
+            } else {
+                this.offset = this.oldOffset;
             }
         });
     }
 
     movePage(direction) {
+        this.oldOffset = this.offset;
         this.offset = this.offset + (direction * this.limit);
 
-        if(this.offset < 0) this.offset = 0;
+        if (this.offset < 0) {
+            this.offset = 0;
+        }
 
         this.queryList();
     }
