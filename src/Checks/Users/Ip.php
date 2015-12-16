@@ -12,7 +12,6 @@ class Ip extends AbstractCheck
      */
     protected $user;
 
-
     public function __construct(User $user)
     {
         parent::__construct();
@@ -24,14 +23,15 @@ class Ip extends AbstractCheck
      * Executes the check.
      *
      * @todo use only one query, instead of the two seperate queries
+     *
      * @return void
      */
     public function execute()
     {
         $ips = $this->user->posts()->whereNotNull('ip_address')->lists('ip_address');
 
-        $this->report['locations'] = "Ip's used: " . count($ips);
-        $this->report['related']   = [];
+        $this->report['locations'] = "Ip's used: ".count($ips);
+        $this->report['related'] = [];
 
         User::whereHas('posts', function ($q) use ($ips) {
             $q->whereIn('ip_address', $ips);

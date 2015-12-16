@@ -5,12 +5,10 @@ namespace Hyn\Guardian\Checks;
 use SplEnum;
 
 /**
- * Class State
- *
- * @package Hyn\Guardian\Checks
+ * Class State.
  */
-class State extends SplEnum {
-
+class State extends SplEnum
+{
     const __default = self::UNKNOWN;
 
     const UNKNOWN = 1;
