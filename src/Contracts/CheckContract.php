@@ -4,8 +4,8 @@ namespace Hyn\Guardian\Contracts;
 
 use Hyn\Guardian\Checks\State;
 
-interface CheckContract {
-
+interface CheckContract
+{
     /**
      * Provides a detailed report of the check.
      *

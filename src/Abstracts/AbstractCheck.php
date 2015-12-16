@@ -5,8 +5,8 @@ namespace Hyn\Guardian\Abstracts;
 use Hyn\Guardian\Checks\State;
 use Hyn\Guardian\Contracts\CheckContract;
 
-abstract class AbstractCheck implements CheckContract {
-
+abstract class AbstractCheck implements CheckContract
+{
     /**
      * @var array
      */
@@ -33,7 +33,6 @@ abstract class AbstractCheck implements CheckContract {
      */
     public function run()
     {
-
         $this->report['timing']['start'] = microtime(true);
 
         $this->execute();

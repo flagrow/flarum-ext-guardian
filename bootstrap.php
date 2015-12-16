@@ -1,8 +1,10 @@
-<?php namespace Hyn\Guardian;
+<?php
+
+namespace Hyn\Guardian;
 
 use Illuminate\Contracts\Events\Dispatcher;
 
-return function(Dispatcher $events) {
+return function (Dispatcher $events) {
     $events->subscribe(Listeners\AddClientAssets::class);
     $events->subscribe(Listeners\AddUserCheckRoute::class);
 };
