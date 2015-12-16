@@ -98,8 +98,10 @@ System.register('hyn/guardian/components/GuardianPage', ['flarum/Component', 'fl
                         var _this = this;
 
                         app.store.find('users', { sort: this.sorting, page: { limit: this.limit, offset: this.offset } }).then(function (users) {
-                            _this.users = users;
-                            m.redraw();
+                            if (users.length > 0) {
+                                _this.users = users;
+                                m.redraw();
+                            }
                         });
                     }
                 }, {

@@ -65,8 +65,10 @@ export default class GuardianPage extends Component {
         app.store.find('users',
             {sort: this.sorting, page: {limit: this.limit, offset: this.offset}}
         ).then(users => {
-            this.users = users;
-            m.redraw();
+            if(users.length > 0) {
+                this.users = users;
+                m.redraw();
+            }
         });
     }
 
