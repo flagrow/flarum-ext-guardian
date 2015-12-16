@@ -28,9 +28,9 @@ interface CheckContract {
     public function getState();
 
     /**
-     * Executes the check.
+     * Runs the check.
      *
      * @return void
      */
-    public function execute();
+    public function run();
 }

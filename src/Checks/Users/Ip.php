@@ -4,7 +4,6 @@ namespace Hyn\Guardian\Checks\Users;
 
 use Flarum\Core\User;
 use Hyn\Guardian\Abstracts\AbstractCheck;
-use Hyn\Guardian\Checks\State;
 
 class Ip extends AbstractCheck
 {
@@ -13,48 +12,35 @@ class Ip extends AbstractCheck
      */
     protected $user;
 
+
     public function __construct(User $user)
     {
+        parent::__construct();
+
         $this->user = $user;
-    }
-
-    /**
-     * Provides a detailed report of the check.
-     *
-     * @return mixed
-     */
-    public function getReport()
-    {
-        // TODO: Implement getReport() method.
-    }
-
-    /**
-     * The score of the result, indicates severity.
-     *
-     * @return mixed
-     */
-    public function getScore()
-    {
-        // TODO: Implement getScore() method.
-    }
-
-    /**
-     * Indicates the current state of the check.
-     *
-     * @return State
-     */
-    public function getState()
-    {
-        // TODO: Implement getState() method.
     }
 
     /**
      * Executes the check.
      *
+     * @todo use only one query, instead of the two seperate queries
      * @return void
      */
     public function execute()
     {
-        // TODO: Implement execute() method.
+        $ips = $this->user->posts()->whereNotNull('ip_address')->lists('ip_address');
+
+        $this->report['locations'] = "Ip's used: " . count($ips);
+        $this->report['related']   = [];
+
+        User::whereHas('posts', function ($q) use ($ips) {
+            $q->whereIn('ip_address', $ips);
+        })
+            ->where('id', '!=', $this->user->id)
+            ->chunk(10, function ($users) {
+                foreach ($users as $user) {
+                    $this->report['related'][] = $user->toJson();
+                }
+            });
     }
 }
