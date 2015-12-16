@@ -12,5 +12,5 @@ hyn-guardian:
         badges: Badges
         activated: Active
         details: Details
-    generic:
-      never: never
+  generic:
+    never: never
