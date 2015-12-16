@@ -1,6 +1,8 @@
 hyn-guardian:
   package_name: "Guardian"
   package_description: "View users and their inter-relations."
+  generic:
+    never: never
   admin:
     nav:
       guardian_button: => hyn-guardian.package_name
@@ -12,5 +14,3 @@ hyn-guardian:
         badges: Badges
         activated: Active
         details: Details
-  generic:
-    never: never
