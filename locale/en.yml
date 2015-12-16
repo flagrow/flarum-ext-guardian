@@ -14,3 +14,5 @@ hyn-guardian:
         badges: Badges
         activated: Active
         details: Details
+        states:
+          never_visited: => hyn-guardian.generic.never

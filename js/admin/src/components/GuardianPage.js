@@ -20,7 +20,7 @@ function userItem(user) {
             m('a', {href: app.forum.attribute('baseUrl') + '/u/' + user.username()}, user.username())
         ]),
         m('td', humanTime(user.joinTime())),
-        m('td', user.lastSeenTime() ? humanTime(user.lastSeenTime()) : app.translator.trans('hyn-guardian.generic.never')),
+        m('td', user.lastSeenTime() ? humanTime(user.lastSeenTime()) : app.translator.trans('hyn-guardian.admin.user.states.never_visited')),
         m('td', user.isActivated() ? icon('check') : icon('close')),
         m('td', user.badges().toArray().length ? m('ul', {className: 'UserCard-badges badges'}, listItems(user.badges().toArray())) : ''),
         m('td', [
