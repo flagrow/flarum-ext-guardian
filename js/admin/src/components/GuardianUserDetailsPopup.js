@@ -8,7 +8,11 @@ export default class GuardianUserDetailsPopup extends Modal {
     }
 
     title() {
-        return this.user.username;
+        return this.user.username();
+    }
+
+    className() {
+        return 'EditTagModal Modal--large';
     }
 
     content() {

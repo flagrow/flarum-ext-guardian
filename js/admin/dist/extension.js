@@ -161,7 +161,12 @@ System.register('hyn/guardian/components/GuardianUserDetailsPopup', ['flarum/com
                 }, {
                     key: 'title',
                     value: function title() {
-                        return this.user.username;
+                        return this.user.username();
+                    }
+                }, {
+                    key: 'className',
+                    value: function className() {
+                        return 'EditTagModal Modal--large';
                     }
                 }, {
                     key: 'content',
