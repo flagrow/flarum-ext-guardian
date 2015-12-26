@@ -9,6 +9,8 @@ import UserBio from 'flarum/components/UserBio';
 import AvatarEditor from 'flarum/components/AvatarEditor';
 import listItems from 'flarum/helpers/listItems';
 
+import GuardianUserDetailsPopup from 'hyn/guardian/components/GuardianUserDetailsPopup';
+
 //import EditTagModal from 'flarum/tags/components/EditTagModal';
 //import TagSettingsModal from 'flarum/tags/components/TagSettingsModal';
 //import tagIcon from 'flarum/tags/helpers/tagIcon';
@@ -24,7 +26,7 @@ function userItem(user) {
         m('td', user.isActivated() ? icon('check') : icon('close')),
         m('td', user.badges().toArray().length ? m('ul', {className: 'UserCard-badges badges'}, listItems(user.badges().toArray())) : ''),
         m('td', [
-            m('button', {className: 'Button Button-Default'}, app.translator.trans('hyn-guardian.admin.grid.user.details'))
+            m('button', {className: 'Button Button-Default', onclick: () =>  app.modal.show(new GuardianUserDetailsPopup({user}))}, app.translator.trans('hyn-guardian.admin.grid.user.details'))
         ])
     ]);
 }

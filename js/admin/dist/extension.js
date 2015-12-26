@@ -32,7 +32,7 @@ System.register('hyn/guardian/addGuardianPane', ['flarum/extend', 'flarum/compon
     }
   };
 });;
-System.register('hyn/guardian/components/GuardianPage', ['flarum/Component', 'flarum/components/Button', 'flarum/utils/humanTime', 'flarum/utils/ItemList', 'flarum/helpers/avatar', 'flarum/helpers/username', 'flarum/helpers/icon', 'flarum/components/UserBio', 'flarum/components/AvatarEditor', 'flarum/helpers/listItems'], function (_export) {
+System.register('hyn/guardian/components/GuardianPage', ['flarum/Component', 'flarum/components/Button', 'flarum/utils/humanTime', 'flarum/utils/ItemList', 'flarum/helpers/avatar', 'flarum/helpers/username', 'flarum/helpers/icon', 'flarum/components/UserBio', 'flarum/components/AvatarEditor', 'flarum/helpers/listItems', 'hyn/guardian/components/GuardianUserDetailsPopup'], function (_export) {
 
     //import EditTagModal from 'flarum/tags/components/EditTagModal';
     //import TagSettingsModal from 'flarum/tags/components/TagSettingsModal';
@@ -41,9 +41,11 @@ System.register('hyn/guardian/components/GuardianPage', ['flarum/Component', 'fl
 
     'use strict';
 
-    var Component, Button, humanTime, ItemList, avatar, username, icon, UserBio, AvatarEditor, listItems, GuardianPage;
+    var Component, Button, humanTime, ItemList, avatar, username, icon, UserBio, AvatarEditor, listItems, GuardianUserDetailsPopup, GuardianPage;
     function userItem(user) {
-        return m('tr', { dataId: user.id(), className: 'PermissionGrid-child' }, [m('th', [m('a', { href: app.forum.attribute('baseUrl') + '/u/' + user.username() }, user.username())]), m('td', humanTime(user.joinTime())), m('td', user.lastSeenTime() ? humanTime(user.lastSeenTime()) : app.translator.trans('hyn-guardian.admin.grid.user.states.never_visited')), m('td', user.isActivated() ? icon('check') : icon('close')), m('td', user.badges().toArray().length ? m('ul', { className: 'UserCard-badges badges' }, listItems(user.badges().toArray())) : ''), m('td', [m('button', { className: 'Button Button-Default' }, app.translator.trans('hyn-guardian.admin.grid.user.details'))])]);
+        return m('tr', { dataId: user.id(), className: 'PermissionGrid-child' }, [m('th', [m('a', { href: app.forum.attribute('baseUrl') + '/u/' + user.username() }, user.username())]), m('td', humanTime(user.joinTime())), m('td', user.lastSeenTime() ? humanTime(user.lastSeenTime()) : app.translator.trans('hyn-guardian.admin.grid.user.states.never_visited')), m('td', user.isActivated() ? icon('check') : icon('close')), m('td', user.badges().toArray().length ? m('ul', { className: 'UserCard-badges badges' }, listItems(user.badges().toArray())) : ''), m('td', [m('button', { className: 'Button Button-Default', onclick: function onclick() {
+                return app.modal.show(new GuardianUserDetailsPopup({ user: user }));
+            } }, app.translator.trans('hyn-guardian.admin.grid.user.details'))])]);
     }
 
     return {
@@ -67,6 +69,8 @@ System.register('hyn/guardian/components/GuardianPage', ['flarum/Component', 'fl
             AvatarEditor = _flarumComponentsAvatarEditor['default'];
         }, function (_flarumHelpersListItems) {
             listItems = _flarumHelpersListItems['default'];
+        }, function (_hynGuardianComponentsGuardianUserDetailsPopup) {
+            GuardianUserDetailsPopup = _hynGuardianComponentsGuardianUserDetailsPopup['default'];
         }],
         execute: function () {
             GuardianPage = (function (_Component) {
@@ -148,6 +152,21 @@ System.register('hyn/guardian/components/GuardianUserDetailsPopup', ['flarum/com
                     babelHelpers.get(Object.getPrototypeOf(GuardianUserDetailsPopup.prototype), 'constructor', this).apply(this, arguments);
                 }
 
+                babelHelpers.createClass(GuardianUserDetailsPopup, [{
+                    key: 'init',
+                    value: function init() {
+                        this.user = this.props.user;
+                        babelHelpers.get(Object.getPrototypeOf(GuardianUserDetailsPopup.prototype), 'init', this).call(this);
+                    }
+                }, {
+                    key: 'title',
+                    value: function title() {
+                        return this.user.username;
+                    }
+                }, {
+                    key: 'content',
+                    value: function content() {}
+                }]);
                 return GuardianUserDetailsPopup;
             })(Modal);
 
@@ -155,24 +174,36 @@ System.register('hyn/guardian/components/GuardianUserDetailsPopup', ['flarum/com
         }
     };
 });;
-System.register('hyn/guardian/main', ['flarum/core/models/User', 'hyn/guardian/addGuardianPane'], function (_export) {
+System.register('hyn/guardian/main', ['flarum/extend', 'flarum/components/PermissionGrid', 'hyn/guardian/addGuardianPane'], function (_export) {
     'use strict';
 
-    //import addTagsPermissionScope from 'flarum/tags/addTagsPermissionScope';
-    //import addTagPermission from 'flarum/tags/addTagPermission';
-    var User, addGuardianPane;
+    var extend, PermissionGrid, addGuardianPane;
     return {
-        setters: [function (_flarumCoreModelsUser) {
-            User = _flarumCoreModelsUser['default'];
+        setters: [function (_flarumExtend) {
+            extend = _flarumExtend.extend;
+        }, function (_flarumComponentsPermissionGrid) {
+            PermissionGrid = _flarumComponentsPermissionGrid['default'];
         }, function (_hynGuardianAddGuardianPane) {
             addGuardianPane = _hynGuardianAddGuardianPane['default'];
         }],
         execute: function () {
 
             app.initializers.add('hyn-guardian', function (app) {
-                //addTagsPermissionScope();
-                //addTagPermission();
+                /**
+                 * Add the admin pane to Flarum for Guardian.
+                 */
                 addGuardianPane();
+
+                /**
+                 * Add permission to the Grid.
+                 */
+                extend(PermissionGrid.prototype, 'useGuardian', function (items) {
+                    items.add('useGuardian', {
+                        icon: 'user-secret',
+                        label: 'Allow usage of Guardian',
+                        permission: 'hyn.guardian.useGuardian'
+                    }, 65);
+                });
             });
         }
     };

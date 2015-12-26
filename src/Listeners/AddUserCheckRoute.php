@@ -10,10 +10,10 @@ class AddUserCheckRoute
 {
     public function subscribe(Dispatcher $events)
     {
-        $events->listen(ConfigureApiRoutes::class, [$this, 'configureRoute']);
+        $events->listen(ConfigureApiRoutes::class, [$this, 'configureApiRoutes']);
     }
 
-    public function configureRoute(ConfigureApiRoutes $event)
+    public function configureApiRoutes(ConfigureApiRoutes $event)
     {
         $event->get('/guardian/u/check/{id}', 'guardian.user.check', UserCheckController::class);
     }
