@@ -32,16 +32,11 @@ System.register('hyn/guardian/addGuardianPane', ['flarum/extend', 'flarum/compon
     }
   };
 });;
-System.register('hyn/guardian/components/GuardianPage', ['flarum/Component', 'flarum/components/Button', 'flarum/utils/humanTime', 'flarum/utils/ItemList', 'flarum/helpers/avatar', 'flarum/helpers/username', 'flarum/helpers/icon', 'flarum/components/UserBio', 'flarum/components/AvatarEditor', 'flarum/helpers/listItems', 'hyn/guardian/components/GuardianUserDetailsPopup'], function (_export) {
-
-    //import EditTagModal from 'flarum/tags/components/EditTagModal';
-    //import TagSettingsModal from 'flarum/tags/components/TagSettingsModal';
-    //import tagIcon from 'flarum/tags/helpers/tagIcon';
-    //import sortTags from 'flarum/tags/utils/sortTags';
-
+System.register('hyn/guardian/components/GuardianPage', ['flarum/Component', 'flarum/components/Button', 'flarum/utils/humanTime', 'flarum/helpers/username', 'flarum/helpers/icon', 'flarum/helpers/listItems', 'hyn/guardian/components/GuardianUserDetailsPopup'], function (_export) {
     'use strict';
 
-    var Component, Button, humanTime, ItemList, avatar, username, icon, UserBio, AvatarEditor, listItems, GuardianUserDetailsPopup, GuardianPage;
+    var Component, Button, humanTime, username, icon, listItems, GuardianUserDetailsPopup, GuardianPage;
+
     function userItem(user) {
         return m('tr', { dataId: user.id(), className: 'PermissionGrid-child' }, [m('th', [m('a', { href: app.forum.attribute('baseUrl') + '/u/' + user.username() }, user.username())]), m('td', humanTime(user.joinTime())), m('td', user.lastSeenTime() ? humanTime(user.lastSeenTime()) : app.translator.trans('hyn-guardian.admin.grid.user.states.never_visited')), m('td', user.isActivated() ? icon('check') : icon('close')), m('td', user.badges().toArray().length ? m('ul', { className: 'UserCard-badges badges' }, listItems(user.badges().toArray())) : ''), m('td', {
             style: { 'text-align': 'right' }
@@ -57,18 +52,10 @@ System.register('hyn/guardian/components/GuardianPage', ['flarum/Component', 'fl
             Button = _flarumComponentsButton['default'];
         }, function (_flarumUtilsHumanTime) {
             humanTime = _flarumUtilsHumanTime['default'];
-        }, function (_flarumUtilsItemList) {
-            ItemList = _flarumUtilsItemList['default'];
-        }, function (_flarumHelpersAvatar) {
-            avatar = _flarumHelpersAvatar['default'];
         }, function (_flarumHelpersUsername) {
             username = _flarumHelpersUsername['default'];
         }, function (_flarumHelpersIcon) {
             icon = _flarumHelpersIcon['default'];
-        }, function (_flarumComponentsUserBio) {
-            UserBio = _flarumComponentsUserBio['default'];
-        }, function (_flarumComponentsAvatarEditor) {
-            AvatarEditor = _flarumComponentsAvatarEditor['default'];
         }, function (_flarumHelpersListItems) {
             listItems = _flarumHelpersListItems['default'];
         }, function (_hynGuardianComponentsGuardianUserDetailsPopup) {

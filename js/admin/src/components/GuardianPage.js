@@ -1,20 +1,10 @@
 import Component from 'flarum/Component';
 import Button from 'flarum/components/Button';
 import humanTime from 'flarum/utils/humanTime';
-import ItemList from 'flarum/utils/ItemList';
-import avatar from 'flarum/helpers/avatar';
 import username from 'flarum/helpers/username';
 import icon from 'flarum/helpers/icon';
-import UserBio from 'flarum/components/UserBio';
-import AvatarEditor from 'flarum/components/AvatarEditor';
 import listItems from 'flarum/helpers/listItems';
-
 import GuardianUserDetailsPopup from 'hyn/guardian/components/GuardianUserDetailsPopup';
-
-//import EditTagModal from 'flarum/tags/components/EditTagModal';
-//import TagSettingsModal from 'flarum/tags/components/TagSettingsModal';
-//import tagIcon from 'flarum/tags/helpers/tagIcon';
-//import sortTags from 'flarum/tags/utils/sortTags';
 
 function userItem(user) {
     return m('tr', {dataId: user.id(), className: 'PermissionGrid-child'}, [
