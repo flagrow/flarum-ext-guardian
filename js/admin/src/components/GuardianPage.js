@@ -25,7 +25,9 @@ function userItem(user) {
         m('td', user.lastSeenTime() ? humanTime(user.lastSeenTime()) : app.translator.trans('hyn-guardian.admin.grid.user.states.never_visited')),
         m('td', user.isActivated() ? icon('check') : icon('close')),
         m('td', user.badges().toArray().length ? m('ul', {className: 'UserCard-badges badges'}, listItems(user.badges().toArray())) : ''),
-        m('td', [
+        m('td', {
+            style: {'text-align': 'right'}
+        }, [
             m('button', {className: 'Button Button-Default', onclick: () =>  app.modal.show(new GuardianUserDetailsPopup({user}))}, app.translator.trans('hyn-guardian.admin.grid.user.details'))
         ])
     ]);
@@ -58,11 +60,23 @@ export default class GuardianPage extends Component {
                 ]),
                 m('tbody', this.users.map(userItem)),
                 m('tfoot', [
-                    m('button', {
-                        className: 'Button Button-Default',
-                        onclick: this.movePage.bind(this, -1)
-                    }, 'Previous'),
-                    m('button', {className: 'Button Button-Default', onclick: this.movePage.bind(this, 1)}, 'Next')
+                    m('tr', [
+                        m('td', {colspan: 3}, [
+                            m('button', {
+                                className: 'Button Button-Default',
+                                onclick: this.movePage.bind(this, -1)
+                            }, 'Previous'),
+                        ]),
+                        m('td', {
+                            colspan: 3,
+                            style: {'text-align': 'right'}
+                        }, [
+                            m('button', {
+                                className: 'Button Button-Default Pull-Right',
+                                onclick: this.movePage.bind(this, 1)
+                            }, 'Next')
+                        ])
+                    ])
                 ])
             ])
         ]);
