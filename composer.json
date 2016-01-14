@@ -1,5 +1,5 @@
 {
-    "name": "hyn/flarum-guardian",
+    "name": "flagrow/flarum-ext-guardian",
     "description": "Adds additional security to Flarum",
     "keywords": ["security"],
     "type": "flarum-extension",
@@ -12,11 +12,11 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/hyn/flarum-guardian/issues",
-        "source": "https://github.com/hyn/flarum-guardian"
+        "issues": "https://github.com/flagrow/flarum-ext-guardian/issues",
+        "source": "https://github.com/flagrow/flarum-ext-guardian"
     },
     "require": {
-        "flarum/core": "^0.1.0-beta.3"
+        "flarum/core": "^0.1.0-beta.5"
     },
     "extra": {
         "flarum-extension": {
@@ -30,7 +30,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Hyn\\Guardian\\": "src/"
+            "Flagrow\\Guardian\\": "src/"
         }
     }
 }
