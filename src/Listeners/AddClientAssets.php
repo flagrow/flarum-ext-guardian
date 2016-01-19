@@ -3,8 +3,10 @@
 namespace Flagrow\Guardian\Listeners;
 
 use DirectoryIterator;
+use Flarum\Api\Serializer\PostSerializer;
 use Flarum\Event\ConfigureClientView;
 use Flarum\Event\ConfigureLocales;
+use Flarum\Event\PrepareApiAttributes;
 use Illuminate\Contracts\Events\Dispatcher;
 
 /**
@@ -19,6 +21,7 @@ class AddClientAssets
     {
         $events->listen(ConfigureClientView::class, [$this, 'addAssets']);
         $events->listen(ConfigureLocales::class, [$this, 'addLocales']);
+        $events->listen(PrepareApiAttributes::class, [$this, 'prepareApiAttributes']);
     }
 
     /**
@@ -34,6 +37,14 @@ class AddClientAssets
 
             $event->addBootstrapper('hyn/guardian/main');
         }
+
+        if ($event->isForum()) {
+            $event->addAssets([
+                __DIR__.'/../../js/forum/dist/extension.js',
+            ]);
+
+            $event->addBootstrapper('hyn/guardian/main');
+        }
     }
 
     /**
@@ -45,6 +56,16 @@ class AddClientAssets
             if ($file->isFile() && in_array($file->getExtension(), ['yml', 'yaml'])) {
                 $event->locales->addTranslations($file->getBasename('.'.$file->getExtension()), $file->getPathname());
             }
+        }
+    }
+
+    /**
+     * @param PrepareApiAttributes $event
+     */
+    public function prepareApiAttributes(PrepareApiAttributes $event)
+    {
+        if ($event->isSerializer(PostSerializer::class) && $event->actor->can('guard', $event->model)) {
+            $event->attributes['user_ip'] = $event->model->ip_address;
         }
     }
 }

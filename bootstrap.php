@@ -1,6 +1,6 @@
 <?php
 
-namespace Hyn\Guardian;
+namespace Flagrow\Guardian;
 
 use Illuminate\Contracts\Events\Dispatcher;
 
