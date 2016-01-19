@@ -1,10 +1,10 @@
 <?php
 
-namespace Hyn\Guardian\Controllers;
+namespace Flagrow\Guardian\Controllers;
 
 use Flarum\Core\User;
 use Flarum\Http\Controller\ControllerInterface;
-use Hyn\Guardian\Checks\Users\Ip;
+use Flagrow\Guardian\Checks\Users\Ip;
 use Psr\Http\Message\ServerRequestInterface;
 
 class UserCheckController implements ControllerInterface

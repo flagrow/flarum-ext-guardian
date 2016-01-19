@@ -1,6 +1,6 @@
 <?php
 
-namespace Hyn\Guardian\Checks;
+namespace Flagrow\Guardian\Checks;
 
 use SplEnum;
 

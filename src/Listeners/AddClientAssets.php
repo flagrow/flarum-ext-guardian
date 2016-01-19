@@ -1,6 +1,6 @@
 <?php
 
-namespace Hyn\Guardian\Listeners;
+namespace Flagrow\Guardian\Listeners;
 
 use DirectoryIterator;
 use Flarum\Event\ConfigureClientView;

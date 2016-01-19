@@ -1,9 +1,9 @@
 <?php
 
-namespace Hyn\Guardian\Listeners;
+namespace Flagrow\Guardian\Listeners;
 
 use Flarum\Event\ConfigureApiRoutes;
-use Hyn\Guardian\Controllers\UserCheckController;
+use Flagrow\Guardian\Controllers\UserCheckController;
 use Illuminate\Contracts\Events\Dispatcher;
 
 class AddUserCheckRoute

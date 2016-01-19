@@ -1,9 +1,9 @@
 <?php
 
-namespace Hyn\Guardian\Checks\Users;
+namespace Flagrow\Guardian\Checks\Users;
 
 use Flarum\Core\User;
-use Hyn\Guardian\Abstracts\AbstractCheck;
+use Flagrow\Guardian\Abstracts\AbstractCheck;
 
 class Ip extends AbstractCheck
 {

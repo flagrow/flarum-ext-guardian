@@ -1,8 +1,8 @@
 <?php
 
-namespace Hyn\Guardian\Contracts;
+namespace Flagrow\Guardian\Contracts;
 
-use Hyn\Guardian\Checks\State;
+use Flagrow\Guardian\Checks\State;
 
 interface CheckContract
 {

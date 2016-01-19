@@ -1,7 +1,7 @@
 {
     "name": "flagrow/flarum-ext-guardian",
     "description": "Adds additional security to Flarum",
-    "keywords": ["security"],
+    "keywords": ["security", "flarum", "flagrow"],
     "type": "flarum-extension",
     "license": "MIT",
     "authors": [

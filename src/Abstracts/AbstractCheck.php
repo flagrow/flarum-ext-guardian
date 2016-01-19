@@ -1,9 +1,9 @@
 <?php
 
-namespace Hyn\Guardian\Abstracts;
+namespace Flagrow\Guardian\Abstracts;
 
-use Hyn\Guardian\Checks\State;
-use Hyn\Guardian\Contracts\CheckContract;
+use Flagrow\Guardian\Checks\State;
+use Flagrow\Guardian\Contracts\CheckContract;
 
 abstract class AbstractCheck implements CheckContract
 {
